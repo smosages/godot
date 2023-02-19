@@ -43,6 +43,7 @@
 #include "core/variant/typed_array.h"
 #include "core/variant/variant_parser.h"
 #include "core/version.h"
+#include "servers/rendering/shader_warnings.h"
 
 #ifdef TOOLS_ENABLED
 #include "modules/modules_enabled.gen.h" // For mono.
@@ -1346,6 +1347,12 @@ ProjectSettings::ProjectSettings() {
 	GLOBAL_DEF_INTERNAL("application/config/features", PackedStringArray());
 	GLOBAL_DEF_INTERNAL("internationalization/locale/translation_remaps", PackedStringArray());
 	GLOBAL_DEF_INTERNAL("internationalization/locale/translations", PackedStringArray());
+
+	GLOBAL_DEF("debug/shader_language/warnings/enable", true);
+	GLOBAL_DEF("debug/shader_language/warnings/treat_warnings_as_errors", false);
+	for (int i = 0; i < (int)ShaderWarning::WARNING_MAX; i++) {
+		GLOBAL_DEF("debug/shader_language/warnings/" + ShaderWarning::get_name_from_code((ShaderWarning::Code)i).to_lower(), true);
+	}
 }
 
 ProjectSettings::~ProjectSettings() {
